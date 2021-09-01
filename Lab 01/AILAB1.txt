@@ -1,0 +1,117 @@
+Code Grandchild:
+
+
+parent('Hasib' , 'Rakib'). parent('Rakib' , 'Sohel'). parent('Rakib' , 'Rebeka').
+parent('Rashid' , 'Hasib'). grandparent(X, Z) :- parent(X, Y), parent(Y, Z).
+/* [Built-in KB is enhanced with the 4 facts and 1 rule; two 2-place predicates; 3 variables; full stop
+(.) as the end marker of a clause/ sentence / statement; :- as ‘if’; comma (,) as logical AND. ] */
+/* Procedure to find the grandchildren of X */
+findGc :- write(' Grandparent: '), read(X), write('Grandchildren: '),
+grandparent(X, Gc), write(Gc), tab(5), fail.
+findGc.
+
+Code for GrandParent:
+
+parent('Hasib' , 'Rakib'). parent('Rakib' , 'Sohel'). parent('Rakib' , 'Rebeka'). 
+parent('Rashid' , 'Hasib'). grandchild(Z,X) :- parent(X, Y), parent(Y, Z).
+
+
+
+findGp :- write(' Grandchild: '), read(X), write('Grandparent: '),
+		grandparent(Z, Gp), write(Gp), tab(5), fail.
+findGp.
+
+Code for Brother:
+
+parent('Hasib' , 'Rakib'). parent('Rakib' , 'Sohel'). parent('Rakib' , 'Rebeka'). parent('Rashid' , 'Hasib').
+male('Hasib'). male('Rakib'). male('Sohel'). female('Rebeka'). brother(Y, Z) :- parent(X, Y), parent(X, Z),male(Z),not(Y=Z).
+
+
+findBro :- write(' Name: '), read(Y), write('Brother: '),
+brother(Y, Bro), write(Bro), tab(5), fail.
+findBro.
+
+Code for Sister:
+
+parent('Hasib' , 'Rakib'). parent('Rakib' , 'Sohel'). parent('Rakib' , 'Rebeka'). parent('Rashid' , 'Hasib').
+male('Hasib'). male('Rakib'). male('Sohel'). female('Rebeka'). sister(Y, Z) :- parent(X, Y), parent(X, Z),female(Z),not(Y=Z).
+
+
+findSis :- write(' Name: '), read(Y), write('Sister: '),
+brother(Y, Sis), write(Sis), tab(5), fail.
+findSis.
+
+Code for Uncle:
+
+parent('Hasib' , 'Rakib'). parent('Rakib' , 'Sohel'). parent('Rakib' , 'Rebeka').
+parent('Hasib' , 'Sakib'). male('Hasib'). male('Rakib'). male('Sohel'). male('Sakib'). female('Rebeka'). uncle(M, Z) :-
+	parent(X, M), parent(Y, X), parent(Y, Z), male(Z), not(X=Z).
+
+findUn :- write(' Name: '), read(M), write('Uncle: '),
+uncle(M, Un), write(Un), tab(5), fail.
+findUn.
+
+Code for Aunt:
+
+parent('Hasib' , 'Rakib'). parent('Rakib' , 'Sohel'). parent('Rakib' , 'Rebeka').
+parent('Hasib' , 'Sakib'). male('Hasib'). male('Rakib'). male('Sohel'). male('Sakib'). female('Rebeka'). aunt(M, Z) :-
+	parent(X, M), parent(Y, X), parent(Y, Z), female(Z), not(X=Z).
+
+findAn :- write(' Name: '), read(M), write('Aunt: '),
+aunt(M, An), write(An), tab(5), fail.
+findAn.
+
+
+Python for Bro/Sis:
+tupleList1=[('parent', 'Hasib', 'Rakib','male'),('parent', 'Hasib', 'Sakib','male'),('parent', 'Rakib', 'Rebeka','female'),('parent', 'Rakib', 'Sohel','male')]
+            
+X=str(input("Name:"))
+print('Brother/Sister:', end=' ')
+i=0
+while(i<=3):
+    if ((tupleList1[i][0] == 'parent')&( tupleList1[i][2] == X)):
+        for j in range(4):
+            if ((tupleList1[j][0] == 'parent') & ( tupleList1[i][1] == tupleList1[j][1])&( tupleList1[j][3] == 'male')):
+                print(tupleList1[j][2], end=' Brother ')
+            elif ((tupleList1[j][0] == 'parent') & ( tupleList1[i][1] == tupleList1[j][1])&( tupleList1[j][3] == 'female')):
+                print(tupleList1[j][2], end=' Sister ')
+     
+    i=i+1
+
+Python for Uncle/Aunt:
+tupleList1=[('parent', 'Hasib', 'Rakib','male'),('parent', 'Hasib', 'Sakib','male'),('parent', 'Rakib', 'Rebeka','female'),('parent', 'Rakib', 'Sohel','male')
+
+X=str(input("Name:"))
+
+i=0
+            
+while(i<=3):
+    if ((tupleList1[i][0] == 'parent')&( tupleList1[i][2] == X)):
+       Y=tupleList1[i][1]
+    i=i+1
+            
+print('Uncle/Aunt:', end=' ')
+            
+m=0
+while(m<=3):
+    if ((tupleList1[m][0] == 'parent')&( tupleList1[m][2] == Y)):
+        for j in range(4):
+            if ((tupleList1[j][0] == 'parent') & ( tupleList1[m][1] == tupleList1[j][1])&( tupleList1[m][3] == 'male')):
+                print(tupleList1[j][2], end=' Uncle')
+            elif ((tupleList1[j][0] == 'parent') & ( tupleList1[m][1] == tupleList1[j][1])&( tupleList1[m][3] == 'female')):
+                print(tupleList1[j][2], end=' Aunt')
+    m=m+1
+
+
+Python for GrandParent:
+
+tupleList1=[('child','Rakib','Hasib'),('child','Sohel','Rakib'),('child','Rebeka','Rakib'),('child','Hasib','Rashid')]
+X=str(input("Grandchild:"))
+print('Grandparent:',end=' ')
+i=0
+while(i<=3):
+    if((tupleList1[i][0]=='child')&(tupleList1[i][1]==X)):
+        for j in range (4):
+            if((tupleList1[i][0]=='child')&(tupleList1[i][2]==tupleList1[j][1])):
+               print(tupleList1[j][2],end=' ')
+    i=i+1
